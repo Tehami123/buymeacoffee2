@@ -1,3 +1,4 @@
+import GradientBlinds from '../components/GradientBlinds';
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -26,20 +27,41 @@ export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
     <html lang="en">
-      
-      
-      <body
-        className={` min-h-[90vh] [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_120%)] ${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-       
-        <div className="absolute inset-0 -z-10 min-h-screen w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
-      
+      <body>
 
-        <Navbar/>
-        <div className="min-h-[90vh] [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_120%)]">
-        {children}
+        {/* Root page container: relative so we can place the gradient absolutely behind content */}
+        <div className="relative min-h-screen">
+          {/* Gradient background placed behind everything */}
+          <GradientBlinds
+            className="absolute inset-0 -z-10 w-full h-full"
+            gradientColors={["#FF9FFC", "#5227FF"]}
+            angle={45}
+            noise={0.3}
+            blindCount={12}
+            blindMinWidth={50}
+            spotlightRadius={0.5}
+            spotlightSoftness={1}
+            spotlightOpacity={1}
+            mouseDampening={0.15}
+            distortAmount={0}
+            shineDirection="left"
+          />
+
+          {/* Navbar above the background */}
+          <div className="relative z-20">
+            <Navbar />
+          </div>
+
+          {/* Page content - keep it above the background */}
+          <main className="relative z-10">
+            {children}
+          </main>
+
+          <div className="relative z-10">
+            <Footer />
+          </div>
         </div>
-        <Footer/>
+
       
       </body>
     </html>
